@@ -1,0 +1,371 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum UserRole {
+  RESIDENT
+  ADMIN
+  SUPER_ADMIN
+}
+
+enum UserStatus {
+  PENDING
+  ACTIVE
+  BLOCKED
+}
+
+enum PlotStatus {
+  ACTIVE
+  VACANT
+}
+
+enum MeterType {
+  ELECTRICITY
+  WATER
+  GAS
+}
+
+enum ReadingStatus {
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+enum ChargeType {
+  MEMBERSHIP
+  ELECTRICITY
+  WATER
+  GAS
+  PENALTY
+  OTHER
+}
+
+enum ChargeStatus {
+  DRAFT
+  ISSUED
+  PARTIALLY_PAID
+  PAID
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  FAILED
+  REFUNDED
+}
+
+enum PaymentProvider {
+  YOOKASSA
+  MANUAL
+  DEMO
+}
+
+enum TicketStatus {
+  NEW
+  IN_PROGRESS
+  ANSWERED
+  CLOSED
+}
+
+enum VoteStatus {
+  DRAFT
+  ACTIVE
+  CLOSED
+}
+
+enum DocumentAccess {
+  PUBLIC
+  RESIDENTS
+}
+
+enum NotificationChannel {
+  IN_APP
+  EMAIL
+}
+
+model User {
+  id                String     @id @default(cuid())
+  email             String     @unique
+  phone             String
+  passwordHash      String
+  fullName          String
+  role              UserRole   @default(RESIDENT)
+  status            UserStatus @default(PENDING)
+  emailVerifiedAt   DateTime?
+  twoFactorEnabled  Boolean    @default(false)
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  plots             UserPlot[]
+  meterReadings     MeterReading[] @relation("SubmittedBy")
+  reviewedReadings  MeterReading[] @relation("ReviewedBy")
+  payments          Payment[]
+  tickets           Ticket[]
+  ticketMessages    TicketMessage[]
+  voteBallots       VoteBallot[]
+  notifications     Notification[]
+  newsPosts         News[]
+  auditLogs         AuditLog[]
+  documents         Document[]
+}
+
+model Plot {
+  id              String     @id @default(cuid())
+  number          String     @unique
+  areaSqm         Float      @default(600)
+  cadastralNumber String?
+  status          PlotStatus @default(ACTIVE)
+  balance         Float      @default(0)
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  users           UserPlot[]
+  meters          Meter[]
+  charges         Charge[]
+  payments        Payment[]
+}
+
+model UserPlot {
+  id         String   @id @default(cuid())
+  userId     String
+  plotId     String
+  isPrimary  Boolean  @default(true)
+  approvedAt DateTime?
+  createdAt  DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plot Plot @relation(fields: [plotId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, plotId])
+}
+
+model Meter {
+  id             String    @id @default(cuid())
+  plotId         String
+  type           MeterType
+  serialNumber   String?
+  lastReading    Float     @default(0)
+  createdAt      DateTime  @default(now())
+
+  plot     Plot           @relation(fields: [plotId], references: [id], onDelete: Cascade)
+  readings MeterReading[]
+
+  @@unique([plotId, type])
+}
+
+model MeterReading {
+  id            String        @id @default(cuid())
+  meterId       String
+  period        String
+  value         Float
+  consumption   Float         @default(0)
+  photoUrl      String?
+  status        ReadingStatus @default(SUBMITTED)
+  rejectReason  String?
+  submittedById String
+  reviewedById  String?
+  reviewedAt    DateTime?
+  createdAt     DateTime      @default(now())
+
+  meter       Meter @relation(fields: [meterId], references: [id], onDelete: Cascade)
+  submittedBy User  @relation("SubmittedBy", fields: [submittedById], references: [id])
+  reviewedBy  User? @relation("ReviewedBy", fields: [reviewedById], references: [id])
+  charges     Charge[]
+
+  @@unique([meterId, period])
+}
+
+model Tariff {
+  id           String    @id @default(cuid())
+  type         ChargeType
+  name         String
+  pricePerUnit Float
+  unit         String
+  validFrom    DateTime
+  validTo      DateTime?
+  createdAt    DateTime  @default(now())
+}
+
+model Charge {
+  id              String       @id @default(cuid())
+  plotId          String
+  period          String
+  type            ChargeType
+  amount          Float
+  description     String
+  status          ChargeStatus @default(ISSUED)
+  meterReadingId  String?
+  createdAt       DateTime     @default(now())
+
+  plot         Plot          @relation(fields: [plotId], references: [id], onDelete: Cascade)
+  meterReading MeterReading? @relation(fields: [meterReadingId], references: [id])
+  allocations  PaymentAllocation[]
+}
+
+model Payment {
+  id          String          @id @default(cuid())
+  plotId      String
+  userId      String
+  amount      Float
+  provider    PaymentProvider @default(DEMO)
+  externalId  String?
+  status      PaymentStatus   @default(PENDING)
+  description String?
+  paidAt      DateTime?
+  createdAt   DateTime        @default(now())
+
+  plot        Plot                @relation(fields: [plotId], references: [id], onDelete: Cascade)
+  user        User                @relation(fields: [userId], references: [id])
+  allocations PaymentAllocation[]
+
+  @@index([externalId])
+}
+
+model PaymentAllocation {
+  id        String @id @default(cuid())
+  paymentId String
+  chargeId  String
+  amount    Float
+
+  payment Payment @relation(fields: [paymentId], references: [id], onDelete: Cascade)
+  charge  Charge  @relation(fields: [chargeId], references: [id], onDelete: Cascade)
+}
+
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  body        String
+  category    String   @default("news")
+  isPinned    Boolean  @default(false)
+  isEmergency Boolean  @default(false)
+  publishedAt DateTime @default(now())
+  authorId    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  author User? @relation(fields: [authorId], references: [id])
+}
+
+model Document {
+  id           String         @id @default(cuid())
+  title        String
+  fileUrl      String?
+  category     String
+  accessLevel  DocumentAccess @default(PUBLIC)
+  uploadedById String?
+  createdAt    DateTime       @default(now())
+
+  uploadedBy User? @relation(fields: [uploadedById], references: [id])
+}
+
+model Outage {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  startsAt    DateTime
+  endsAt      DateTime?
+  type        String   @default("water")
+  createdAt   DateTime @default(now())
+}
+
+model Vote {
+  id             String     @id @default(cuid())
+  title          String
+  description    String
+  status         VoteStatus @default(DRAFT)
+  startsAt       DateTime
+  endsAt         DateTime
+  quorumPercent  Float      @default(50)
+  resultsPublic  Boolean    @default(true)
+  createdAt      DateTime   @default(now())
+
+  options  VoteOption[]
+  ballots  VoteBallot[]
+}
+
+model VoteOption {
+  id     String @id @default(cuid())
+  voteId String
+  label  String
+
+  vote    Vote         @relation(fields: [voteId], references: [id], onDelete: Cascade)
+  ballots VoteBallot[]
+}
+
+model VoteBallot {
+  id       String   @id @default(cuid())
+  voteId   String
+  userId   String
+  optionId String
+  votedAt  DateTime @default(now())
+
+  vote   Vote       @relation(fields: [voteId], references: [id], onDelete: Cascade)
+  user   User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  option VoteOption @relation(fields: [optionId], references: [id], onDelete: Cascade)
+
+  @@unique([voteId, userId])
+}
+
+model Ticket {
+  id        String       @id @default(cuid())
+  userId    String
+  subject   String
+  category  String       @default("general")
+  status    TicketStatus @default(NEW)
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages TicketMessage[]
+}
+
+model TicketMessage {
+  id        String   @id @default(cuid())
+  ticketId  String
+  userId    String
+  body      String
+  isStaff   Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  ticket Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id])
+}
+
+model Notification {
+  id        String              @id @default(cuid())
+  userId    String
+  channel   NotificationChannel @default(IN_APP)
+  title     String
+  body      String
+  readAt    DateTime?
+  createdAt DateTime            @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  actorId   String
+  action    String
+  entity    String
+  entityId  String?
+  payload   String?
+  ip        String?
+  createdAt DateTime @default(now())
+
+  actor User @relation(fields: [actorId], references: [id])
+}
+
+model SiteSetting {
+  id    String @id @default(cuid())
+  key   String @unique
+  value String
+}

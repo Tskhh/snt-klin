@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Личный кабинет — СНТ «Клин»</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">К</div>
+        <div>
+          <div class="logo-title">СНТ «Клин»</div>
+          <div class="logo-sub">Личный кабинет</div>
+        </div>
+      </a>
+      <nav id="site-nav" class="nav-links" aria-label="Основное меню"></nav>
+      <button type="button" class="btn btn-outline" data-logout>Выйти</button>
+    </div>
+  </header>
+
+  <div class="cabinet-layout">
+    <nav class="cabinet-nav">
+      <a href="cabinet.html" class="active">Главная</a>
+      <a href="cabinet.html#meters">Счётчики</a>
+      <a href="cabinet.html#pay">Оплата</a>
+      <a href="cabinet.html#tickets">Обращения</a>
+      <a href="cabinet.html#votes">Голосования</a>
+      <a href="documents.html">Документы</a>
+    </nav>
+
+    <div class="cabinet-content">
+      <h1 style="font-size:32px;margin-bottom:8px">Здравствуйте, <span id="user-name">...</span>!</h1>
+      <p style="color:#6b7280;margin-bottom:24px">Участок <span id="user-plot">...</span></p>
+
+      <section id="membership" style="scroll-margin-top:100px">
+        <h2 style="font-size:22px;margin-bottom:12px">Членские взносы</h2>
+      </section>
+
+      <div id="debt-box" class="debt-box">
+        <p style="color:#6b7280;margin-bottom:8px">Задолженность</p>
+        <p id="debt-amount" class="debt-amount">...</p>
+        <button type="button" class="btn btn-primary btn-lg" style="margin-top:16px" onclick="alert('В HTML-версии оплата показана как демо. В полной версии — через ЮKassa.')">
+          Оплатить
+        </button>
+      </div>
+
+      <div class="card" id="meters">
+        <h2>Счётчики</h2>
+        <p style="margin-bottom:16px">Передайте показания до <strong>28 числа</strong> каждого месяца.</p>
+        <table>
+          <thead>
+            <tr><th>Тип</th><th>Последнее</th><th>Действие</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>⚡ Электричество</td>
+              <td>1285 кВт·ч</td>
+              <td><button class="btn btn-outline" onclick="alert('В полной версии — форма передачи показаний')">Передать</button></td>
+            </tr>
+            <tr>
+              <td>💧 Вода</td>
+              <td>340 м³</td>
+              <td><button class="btn btn-outline" onclick="alert('В полной версии — форма передачи показаний')">Передать</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <section id="target" style="scroll-margin-top:80px">
+        <h2 style="font-size:20px;margin:24px 0 8px">Целевые взносы</h2>
+        <p style="color:#6b7280;margin-bottom:8px">Ремонт дорог, ограждение — в таблице начислений.</p>
+      </section>
+
+      <section id="electricity" style="scroll-margin-top:80px">
+        <h2 style="font-size:20px;margin-bottom:8px">Оплата электроэнергии</h2>
+        <p style="color:#6b7280;margin-bottom:16px">По показаниям счётчика — см. раздел «Счётчики».</p>
+      </section>
+
+      <div class="card" id="pay">
+        <h2>Начисления и оплата</h2>
+        <table>
+          <thead>
+            <tr><th>Период</th><th>Описание</th><th>Сумма</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>2026-05</td><td>Членский взнос</td><td>900 ₽</td></tr>
+            <tr><td>2026-05</td><td>Электричество: 35 кВт·ч</td><td>228 ₽</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" id="requisites" style="scroll-margin-top:100px">
+        <h2>Реквизиты для оплаты</h2>
+        <p style="margin-top:12px">
+          Получатель: СНТ «Клин»<br>
+          ИНН 5020016449<br>
+          Назначение: участок № <span id="requisites-plot">—</span>, ФИО плательщика
+        </p>
+      </div>
+
+      <div class="card" id="tickets">
+        <h2>Обращения</h2>
+        <p>Напишите председателю через форму в полной версии сайта.</p>
+        <button class="btn btn-outline" onclick="alert('Демо: обращение отправлено')">Новое обращение</button>
+      </div>
+
+      <div class="card" id="votes">
+        <h2>Голосование</h2>
+        <p><strong>Установка видеонаблюдения на въезде</strong></p>
+        <p style="margin:12px 0;color:#6b7280">Голосование за установку камер. Стоимость — 120 000 ₽.</p>
+        <button class="btn btn-primary" onclick="alert('Ваш голос «За» учтён (демо)')">Голосовать «За»</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/nav.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
