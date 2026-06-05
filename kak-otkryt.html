@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Как открыть сайт — СНТ «Клин»</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">К</div>
+        <div><div class="logo-title">СНТ «Клин»</div></div>
+      </a>
+      <nav id="site-nav" class="nav-links" aria-label="Основное меню"></nav>
+    </div>
+  </header>
+
+  <main class="container" style="max-width:800px">
+    <h1 class="section-title">Как открыть сайт</h1>
+
+    <div class="instruction-box">
+      <h2>✅ Способ 1 — HTML (самый простой)</h2>
+      <p>Вы уже в HTML-версии. Откройте файл двойным щелчком:</p>
+      <ol>
+        <li>Откройте папку:<br>
+          <code>C:\Users\I_m_already18\snt-klin\static-html</code>
+        </li>
+        <li>Дважды щёлкните по файлу <strong>index.html</strong></li>
+        <li>Сайт откроется в браузере (Chrome, Edge, Firefox)</li>
+      </ol>
+      <p style="margin-top:12px">Для входа: <strong>petrov@example.ru</strong> / <strong>resident123</strong></p>
+    </div>
+
+    <div class="card">
+      <h2>Способ 2 — Полная версия (с базой данных)</h2>
+      <p>Нужен установленный <a href="https://nodejs.org" target="_blank" rel="noopener">Node.js</a>.</p>
+      <ol style="margin:16px 0 16px 24px">
+        <li>Нажмите <kbd>Win + R</kbd>, введите <code>cmd</code>, Enter</li>
+        <li>В чёрном окне введите по очереди:</li>
+      </ol>
+      <pre style="background:#1e293b;color:#e2e8f0;padding:16px;border-radius:12px;overflow-x:auto;font-size:15px">cd C:\Users\I_m_already18\snt-klin
+npm install
+npm run db:seed
+npm run dev</pre>
+      <p style="margin-top:16px">Откройте в браузере: <strong>http://localhost:3000</strong></p>
+      <p style="color:#6b7280;margin-top:8px">Окно cmd не закрывайте — пока оно открыто, сайт работает.</p>
+    </div>
+
+    <div class="card">
+      <h2>В чём разница?</h2>
+      <table>
+        <tr><th>HTML-версия</th><th>Полная версия</th></tr>
+        <tr><td>Открывается двойным щелчком</td><td>Нужен Node.js</td></tr>
+        <tr><td>Демо-данные, без сохранения</td><td>Реальная база, оплаты, регистрация</td></tr>
+        <tr><td>Для просмотра и показа</td><td>Для работы СНТ</td></tr>
+      </table>
+    </div>
+
+    <a href="index.html" class="btn btn-primary btn-lg">Перейти на главную</a>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-copy">© 2026 СНТ «Клин»</p>
+  </footer>
+
+  <script src="js/nav.js"></script>
+</body>
+</html>

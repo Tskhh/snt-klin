@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Админ-панель — СНТ «Клин»</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">К</div>
+        <div>
+          <div class="logo-title">СНТ «Клин»</div>
+          <div class="logo-sub">Админ-панель</div>
+        </div>
+      </a>
+      <nav id="site-nav" class="nav-links" aria-label="Основное меню"></nav>
+      <button type="button" class="btn btn-outline" data-logout>Выйти</button>
+    </div>
+  </header>
+
+  <div class="cabinet-layout">
+    <nav class="cabinet-nav">
+      <a href="admin.html" class="active">Дашборд</a>
+      <a href="admin.html#users">Пользователи</a>
+      <a href="admin.html#plots">Участки</a>
+      <a href="admin.html#meters">Показания</a>
+    </nav>
+
+    <div class="cabinet-content">
+      <h1 style="font-size:32px;margin-bottom:24px">Админ-панель</h1>
+
+      <div class="two-cols" style="margin-bottom:24px">
+        <div class="card"><p style="color:#6b7280">Жителей</p><p style="font-size:36px;font-weight:700">15</p></div>
+        <div class="card"><p style="color:#6b7280">Задолженность</p><p style="font-size:36px;font-weight:700;color:#c62828">5 700 ₽</p></div>
+        <div class="card"><p style="color:#6b7280">На проверке</p><p style="font-size:36px;font-weight:700">2</p></div>
+        <div class="card"><p style="color:#6b7280">Обращения</p><p style="font-size:36px;font-weight:700">3</p></div>
+      </div>
+
+      <div class="card" id="users">
+        <h2>Регистрации на проверке</h2>
+        <table>
+          <thead>
+            <tr><th>ФИО</th><th>Email</th><th>Участок</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Сидоров С.С.</td>
+              <td>sidorov@mail.ru</td>
+              <td>№ 7</td>
+              <td><button class="btn btn-primary" onclick="alert('Подтверждено (демо)')">Подтвердить</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" id="plots">
+        <h2>Участки</h2>
+        <table>
+          <thead>
+            <tr><th>№</th><th>Владелец</th><th>Баланс</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td>Петров П.П.</td><td style="color:#c62828">−1 128 ₽</td></tr>
+            <tr><td>2</td><td>Иванов И.И.</td><td>0 ₽</td></tr>
+            <tr><td>5</td><td>—</td><td style="color:#c62828">−4 500 ₽</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card" id="meters">
+        <h2>Показания на проверке</h2>
+        <table>
+          <thead>
+            <tr><th>Участок</th><th>Тип</th><th>Значение</th><th></th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>№ 3</td>
+              <td>Электричество</td>
+              <td>4520</td>
+              <td><button class="btn btn-primary" onclick="alert('Одобрено (демо)')">Одобрить</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/nav.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

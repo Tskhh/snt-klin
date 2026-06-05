@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Доска объявлений — СНТ «Клин»</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="index.html" class="logo">
+        <div class="logo-icon">К</div>
+        <div><div class="logo-title">СНТ «Клин»</div></div>
+      </a>
+      <nav id="site-nav" class="nav-links" aria-label="Основное меню"></nav>
+      <div class="header-btns">
+        <a href="login.html" class="btn btn-outline" id="header-login">Войти</a>
+        <a href="cabinet.html" class="btn btn-primary hidden" id="header-cabinet">Кабинет</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="section-title">Доска объявлений</h1>
+    <p style="margin-bottom:32px;color:#6b7280">Сообщения правления, графики работ и объявления соседей.</p>
+
+    <section id="pravlenie" style="scroll-margin-top:100px">
+      <h2 style="font-size:22px;margin-bottom:16px">Оперативные сообщения от правления</h2>
+      <div class="card">
+        <span class="badge">Важно</span>
+        <h2 style="margin:12px 0">Добро пожаловать на сайт СНТ «Клин»</h2>
+        <p>Уважаемые садоводы! Мы запустили обновлённый сайт. Теперь вы можете передавать показания, оплачивать взносы и получать новости онлайн.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Важно</span>
+        <h2 style="margin:12px 0">Срок сдачи показаний — до 28 числа</h2>
+        <p>Не забудьте передать показания электричества и воды с 20 по 28 число.</p>
+      </div>
+    </section>
+
+    <section id="otklucheniya" style="margin-top:40px;scroll-margin-top:100px">
+      <h2 style="font-size:22px;margin-bottom:16px">Графики отключений и работ</h2>
+      <div class="card">
+        <span class="badge badge-red">Отключение</span>
+        <h2 style="margin:12px 0">25 мая — плановое отключение воды</h2>
+        <p>С 10:00 до 14:00 (участки 1–50). Просим запастись водой заранее.</p>
+      </div>
+    </section>
+
+    <section id="sadovody" style="margin-top:40px;scroll-margin-top:100px">
+      <h2 style="font-size:22px;margin-bottom:16px">Объявления от садоводов</h2>
+      <div class="card">
+        <span class="badge badge-green">Соседи</span>
+        <h2 style="margin:12px 0">Продаётся саженец яблони</h2>
+        <p>Участок 15 — звоните после 18:00. Самовывоз.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p class="footer-copy">© 2026 СНТ «Клин»</p>
+  </footer>
+
+  <script src="js/nav.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
