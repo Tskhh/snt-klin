@@ -35,9 +35,20 @@ export async function POST(request: Request) {
       );
     }
 
-    const plot = await prisma.plot.findUnique({
+    let plot = await prisma.plot.findUnique({
       where: { number: data.plotNumber },
     });
+
+    if (!plot && PLOT_NUMBERS.includes(data.plotNumber)) {
+      plot = await prisma.plot.create({
+        data: {
+          number: data.plotNumber,
+          areaSqm: 600,
+          status: "ACTIVE",
+        },
+      });
+    }
+
     if (!plot) {
       return NextResponse.json(
         { error: "Участок с таким номером не найден. Обратитесь к администратору." },
