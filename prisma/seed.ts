@@ -1,30 +1,19 @@
 import "dotenv/config";
 import { createPrismaClient } from "../src/lib/create-prisma";
 import bcrypt from "bcryptjs";
+import { SITE, formatAddressInline, PLOT_NUMBERS } from "../src/config/site";
 
 const prisma = createPrismaClient();
 
 async function main() {
-  await prisma.auditLog.deleteMany();
-  await prisma.notification.deleteMany();
-  await prisma.ticketMessage.deleteMany();
-  await prisma.ticket.deleteMany();
-  await prisma.voteBallot.deleteMany();
-  await prisma.voteOption.deleteMany();
-  await prisma.vote.deleteMany();
-  await prisma.paymentAllocation.deleteMany();
-  await prisma.payment.deleteMany();
-  await prisma.charge.deleteMany();
-  await prisma.meterReading.deleteMany();
-  await prisma.meter.deleteMany();
-  await prisma.userPlot.deleteMany();
-  await prisma.plot.deleteMany();
-  await prisma.user.deleteMany();
-  await prisma.news.deleteMany();
-  await prisma.document.deleteMany();
-  await prisma.outage.deleteMany();
-  await prisma.tariff.deleteMany();
-  await prisma.siteSetting.deleteMany();
+  await prisma.$executeRawUnsafe(`
+    TRUNCATE TABLE
+      "AuditLog", "Notification", "TicketMessage", "Ticket",
+      "VoteBallot", "VoteOption", "Vote", "PaymentAllocation", "Payment",
+      "Charge", "MeterReading", "Meter", "UserPlot", "Plot", "User",
+      "News", "Document", "Outage", "Tariff", "SiteSetting"
+    RESTART IDENTITY CASCADE;
+  `);
 
   const passwordHash = await bcrypt.hash("admin123", 12);
 
@@ -55,18 +44,15 @@ async function main() {
   });
 
   const plots = [];
-  for (let i = 1; i <= 20; i++) {
-    plots.push(
-      await prisma.plot.create({
-        data: {
-          number: String(i),
-          areaSqm: 600 + i * 10,
-          status: i <= 15 ? "ACTIVE" : "VACANT",
-          balance: i === 5 ? -4500 : i === 8 ? -1200 : 0,
-        },
-      })
-    );
-  }
+  const plotData = PLOT_NUMBERS.map((number) => ({
+    number,
+    areaSqm: 600,
+    status: "ACTIVE" as const,
+    balance: number === "5" ? -4500 : number === "8" ? -1200 : 0,
+  }));
+  await prisma.plot.createMany({ data: plotData });
+  const allPlots = await prisma.plot.findMany();
+  plots.push(...allPlots);
 
   const plot1 = plots[0];
   await prisma.userPlot.create({
@@ -219,11 +205,11 @@ async function main() {
 
   await prisma.siteSetting.createMany({
     data: [
-      { key: "site_name", value: "СНТ «Клин»" },
-      { key: "phone", value: "+7 (495) 123-45-67" },
-      { key: "email", value: "info@snt-klin.ru" },
-      { key: "address", value: "Московская область, д. Клин, СНТ «Клин»" },
-      { key: "chairman", value: "Иванов Иван Иванович" },
+      { key: "site_name", value: SITE.fullName },
+      { key: "phone", value: "+7 926 488-94-47" },
+      { key: "email", value: SITE.email },
+      { key: "address", value: formatAddressInline() },
+      { key: "chairman", value: "Кузьмина Анастасия Александровна" },
       { key: "reading_day_start", value: "20" },
       { key: "reading_day_end", value: "28" },
     ],

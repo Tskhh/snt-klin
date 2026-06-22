@@ -1,30 +1,72 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f5f7fa;
-  --foreground: #1a1a1a;
-  --primary: #1b5e40;
-  --primary-dark: #134d33;
+  --background: #f4f2ec;
+  --foreground: #2a2f28;
+  --sage: #6b7f5e;
+  --sage-dark: #4a5a42;
+  --sage-light: #8a9a7a;
+  --gold: #c4a35a;
+  --gold-light: #d4b87a;
+  --charcoal: #2a2f28;
+  --cream: #f7f5f0;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Source Sans 3", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Playfair Display", Georgia, "Times New Roman", serif;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans);
-  font-size: 18px;
-  line-height: 1.6;
+  font-size: 17px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
   color: inherit;
 }
 
+.font-serif {
+  font-family: var(--font-serif);
+}
+
 .prose p {
   margin-bottom: 1rem;
+}
+
+/* Декоративный фон главной */
+.hero-pattern {
+  background-color: var(--sage);
+  background-image:
+    radial-gradient(ellipse at 20% 80%, rgba(196, 163, 90, 0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 80% 20%, rgba(255, 255, 255, 0.06) 0%, transparent 40%);
+}
+
+.gold-divider {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 1rem auto;
+  max-width: 12rem;
+}
+
+.gold-divider::before,
+.gold-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--gold);
+}
+
+.gold-divider span {
+  width: 6px;
+  height: 6px;
+  rotate: 45deg;
+  background: var(--gold);
 }

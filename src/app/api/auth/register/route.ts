@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { prisma } from "@/lib/prisma";
 import { hashPassword } from "@/lib/auth";
+import { PLOT_NUMBERS } from "@/config/site";
 
 const schema = z.object({
   fullName: z.string().min(3, "Укажите ФИО"),
@@ -23,6 +24,13 @@ export async function POST(request: Request) {
     if (existing) {
       return NextResponse.json(
         { error: "Пользователь с таким email уже зарегистрирован" },
+        { status: 400 }
+      );
+    }
+
+    if (!PLOT_NUMBERS.includes(data.plotNumber)) {
+      return NextResponse.json(
+        { error: "Указан несуществующий номер участка" },
         { status: 400 }
       );
     }

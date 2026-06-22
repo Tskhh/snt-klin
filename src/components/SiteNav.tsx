@@ -14,7 +14,7 @@ function NavDropdown({ item }: { item: NavItem }) {
     <li className="group relative">
       <Link
         href={item.href}
-        className="inline-flex items-center gap-1 py-2 text-base font-medium text-gray-700 hover:text-emerald-800"
+        className="inline-flex items-center gap-1 py-2 text-base font-medium text-gray-700 hover:text-[var(--sage-dark)]"
       >
         <span>
           {item.label}
@@ -30,7 +30,7 @@ function NavDropdown({ item }: { item: NavItem }) {
             <li key={child.href}>
               <Link
                 href={child.href}
-                className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-emerald-50 hover:text-emerald-900"
+                className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-[var(--cream)] hover:text-[var(--sage-dark)]"
               >
                 {child.label}
               </Link>
@@ -76,7 +76,7 @@ export function SiteNav({ paymentsHref }: SiteNavProps) {
               <li key={item.label}>
                 <Link
                   href={item.href}
-                  className="text-lg font-semibold text-emerald-900"
+                  className="text-lg font-semibold text-[var(--charcoal)]"
                   onClick={() => setMobileOpen(false)}
                 >
                   {item.label}
@@ -86,12 +86,12 @@ export function SiteNav({ paymentsHref }: SiteNavProps) {
                     </span>
                   )}
                 </Link>
-                <ul className="mt-2 space-y-1 border-l-2 border-emerald-100 pl-4">
+                <ul className="mt-2 space-y-1 border-l-2 border-[var(--sage)]/20 pl-4">
                   {item.children.map((child) => (
                     <li key={child.href}>
                       <Link
                         href={child.href}
-                        className="block py-1.5 text-sm text-gray-600 hover:text-emerald-800"
+                        className="block py-1.5 text-sm text-gray-600 hover:text-[var(--sage-dark)]"
                         onClick={() => setMobileOpen(false)}
                       >
                         {child.label}

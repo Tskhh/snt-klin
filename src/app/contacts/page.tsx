@@ -1,62 +1,54 @@
 import { Card } from "@/components/ui/Card";
-import { Phone, Mail, MapPin, Clock, Shield, AlertTriangle } from "lucide-react";
+import { BoardSection } from "@/components/BoardSection";
+import { SITE, formatAddress } from "@/config/site";
+import { Mail, MapPin, Clock } from "lucide-react";
 
 export default function ContactsPage() {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
-      <h1 className="mb-8 text-4xl font-bold">Контакты</h1>
+    <div className="mx-auto max-w-5xl px-4 py-10 md:py-14">
+      <h1 className="mb-2 font-serif text-4xl font-bold text-[var(--charcoal)]">
+        Контакты
+      </h1>
+      <p className="mb-10 text-lg text-gray-600">{SITE.fullName}</p>
 
-      <section id="chairman" className="mb-8 scroll-mt-24">
-        <Card>
-          <Clock className="mb-3 h-8 w-8 text-emerald-800" />
-          <h2 className="text-xl font-bold">Председатель (часы приёма)</h2>
-          <p className="mt-2 text-lg">Понедельник, среда — 18:00–20:00</p>
-          <p className="text-gray-600">Иванов Иван Иванович</p>
-          <p className="mt-2 text-gray-600">Тел.: +7 (495) 123-45-67</p>
-        </Card>
-      </section>
+      <div className="mb-12 grid gap-6 md:grid-cols-2">
+        <section id="map" className="scroll-mt-24">
+          <Card>
+            <MapPin className="mb-3 h-8 w-8 text-[var(--sage-dark)]" />
+            <h2 className="text-xl font-bold">Адрес</h2>
+            <p className="mt-3 whitespace-pre-line text-lg leading-relaxed text-gray-700">
+              {formatAddress()}
+            </p>
+          </Card>
+        </section>
 
-      <section id="accounting" className="mb-8 scroll-mt-24">
-        <Card>
-          <Mail className="mb-3 h-8 w-8 text-emerald-800" />
-          <h2 className="text-xl font-bold">Бухгалтерия</h2>
-          <p className="mt-2 text-lg">info@snt-klin.ru</p>
-          <p className="text-gray-600">Вопросы по взносам, квитанциям и задолженности</p>
-        </Card>
-      </section>
+        <section id="email" className="scroll-mt-24">
+          <Card>
+            <Mail className="mb-3 h-8 w-8 text-[var(--sage-dark)]" />
+            <h2 className="text-xl font-bold">Электронная почта</h2>
+            <a
+              href={`mailto:${SITE.email}`}
+              className="mt-3 inline-block text-lg font-medium text-[var(--sage-dark)] hover:text-[var(--gold)]"
+            >
+              {SITE.email}
+            </a>
+            <p className="mt-2 text-gray-600">
+              По вопросам взносов, документов и обращений
+            </p>
+          </Card>
+        </section>
 
-      <section id="security" className="mb-8 scroll-mt-24">
-        <Card>
-          <Shield className="mb-3 h-8 w-8 text-emerald-800" />
-          <h2 className="text-xl font-bold">Охрана / КПП</h2>
-          <p className="mt-2 text-lg">+7 (495) 123-45-69</p>
-          <p className="text-gray-600">Круглосуточно</p>
-        </Card>
-      </section>
+        <section id="hours" className="scroll-mt-24 md:col-span-2">
+          <Card>
+            <Clock className="mb-3 h-8 w-8 text-[var(--sage-dark)]" />
+            <h2 className="text-xl font-bold">Часы приёма звонков</h2>
+            <p className="mt-2 text-lg">{SITE.officeHours}</p>
+            <p className="mt-3 text-gray-600">{SITE.officeNote}</p>
+          </Card>
+        </section>
+      </div>
 
-      <section id="emergency" className="mb-8 scroll-mt-24">
-        <Card>
-          <AlertTriangle className="mb-3 h-8 w-8 text-emerald-800" />
-          <h2 className="text-xl font-bold">Аварийные службы</h2>
-          <p className="mt-2 text-lg">+7 (495) 123-45-68</p>
-          <p className="text-gray-600">Вода, электричество, прорывы — звоните сразу</p>
-        </Card>
-      </section>
-
-      <section id="map" className="scroll-mt-24">
-        <Card>
-          <MapPin className="mb-3 h-8 w-8 text-emerald-800" />
-          <h2 className="text-xl font-bold">Карта проезда</h2>
-          <p className="mt-2 text-lg">
-            Московская область, д. Полуханово
-            <br />
-            СНТ «Клин», Ленинградское ш., ~72 км от МКАД
-          </p>
-          <p className="mt-4 text-gray-600">
-            Схему проезда можно запросить у охраны на КПП или у председателя на приёме.
-          </p>
-        </Card>
-      </section>
+      <BoardSection />
     </div>
   );
 }

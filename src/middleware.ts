@@ -28,7 +28,8 @@ export async function middleware(request: NextRequest) {
   }
 
   if (isAuthPage && session?.status === "ACTIVE") {
-    return NextResponse.redirect(new URL("/cabinet", request.url));
+    const dest = isAdmin(session.role) ? "/admin" : "/cabinet";
+    return NextResponse.redirect(new URL(dest, request.url));
   }
 
   return NextResponse.next();

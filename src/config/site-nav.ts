@@ -42,11 +42,10 @@ export const SITE_NAV: NavItem[] = [
     label: "Контакты",
     href: "/contacts",
     children: [
-      { label: "Председатель (часы приёма)", href: "/contacts#chairman" },
-      { label: "Бухгалтерия", href: "/contacts#accounting" },
-      { label: "Охрана / КПП", href: "/contacts#security" },
-      { label: "Аварийные службы", href: "/contacts#emergency" },
-      { label: "Карта проезда", href: "/contacts#map" },
+      { label: "Председатель и правление", href: "/contacts#board" },
+      { label: "Адрес и карта", href: "/contacts#map" },
+      { label: "Электронная почта", href: "/contacts#email" },
+      { label: "Часы приёма", href: "/contacts#hours" },
     ],
   },
   {
